@@ -16,6 +16,9 @@
 html {
   --background-color: #ffffff;
   --dark-background-color: #000000;
+  /* Custom login (ADR-0017): fonts with Thai glyphs that are already on the
+     visitor's device, the same stack as Platform's sign-up pages. */
+  font-family: "Noto Sans Thai", "Leelawadee UI", "Sukhumvit Set", Thonburi, Loma, Tahoma, sans-serif;
 }
 
 .form-checkbox:checked {
@@ -46,5 +49,399 @@ html {
   }
   100% {
     background-position: -200% 0;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Custom login (saas-infra-template, ADR-0017): the layout of
+   src/components/dynamic-theme.tsx, the same design as Platform's sign-up
+   pages: full screen, a tinted brand panel on the left and the form on the
+   right. Every shade comes from the branding's primary
+   colour, which ThemeWrapper writes to --theme-light-primary-500 (the
+   fallback is used until then). Unlayered on purpose: these rules win over
+   Tailwind's layers.
+   ------------------------------------------------------------------ */
+.cl-page {
+  --cl-accent: var(--theme-light-primary-500, #2456d6);
+  --cl-accent-dark: color-mix(in srgb, var(--cl-accent) 80%, black);
+  --cl-tint: color-mix(in srgb, var(--cl-accent) 9%, white);
+  --cl-tint-2: color-mix(in srgb, var(--cl-accent) 20%, white);
+  --cl-ink: #131a2b;
+  --cl-muted: #566074;
+  --cl-line: #cfd5e1;
+  min-height: 100vh;
+  color: var(--cl-ink);
+  background: #fff;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.cl-card {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  background: #fff;
+}
+.cl-brand {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  background: linear-gradient(165deg, var(--cl-tint) 0%, var(--cl-tint-2) 100%);
+}
+.cl-brand::before,
+.cl-brand::after {
+  content: "";
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+.cl-brand::before {
+  left: -18%;
+  bottom: -46%;
+  width: 86%;
+  background: color-mix(in srgb, var(--cl-accent) 16%, white);
+}
+.cl-brand::after {
+  right: -12%;
+  bottom: -8%;
+  width: 44%;
+  background: color-mix(in srgb, var(--cl-accent) 24%, white);
+  opacity: 0.75;
+}
+.cl-brand > * {
+  position: relative;
+  z-index: 1;
+}
+.cl-brandrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 44px;
+  font-weight: 700;
+  font-size: 20px;
+}
+.cl-mobilebrand {
+  display: none;
+  width: 100%;
+  margin-bottom: 28px;
+}
+.cl-mark {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 12px;
+  background: var(--cl-accent);
+  color: var(--theme-light-primary-contrast-500, #fff);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 20px;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--cl-accent) 35%, transparent);
+}
+.cl-pitch {
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-bottom: 12%;
+}
+.cl-pitch h2 {
+  font-size: 38px;
+  line-height: 1.25;
+  margin: 0 0 14px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.cl-pitch p {
+  margin: 0;
+  color: #44506a;
+  font-size: 18px;
+  max-width: 22em;
+  text-wrap: pretty;
+}
+.cl-foot {
+  min-height: 1px;
+  font-size: 14px;
+  color: #36415a;
+}
+.cl-formside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 56px;
+}
+.cl-form {
+  width: 100%;
+  max-width: 440px;
+}
+.cl-head {
+  margin-bottom: 26px;
+}
+.cl-head h1,
+.cl-head .ztdl-h1 {
+  text-align: left;
+  font-size: 34px;
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.cl-head p,
+.cl-head .ztdl-p {
+  text-align: left;
+  font-size: 17px;
+  color: var(--cl-muted);
+}
+.cl-head > div > * + * {
+  margin-top: 10px;
+}
+.cl-backlink {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 6px 0 0;
+  margin-bottom: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--cl-accent-dark);
+  border-radius: 8px;
+}
+.cl-backlink:hover {
+  text-decoration: underline;
+}
+.cl-head p.cl-chip {
+  align-self: flex-start;
+  padding: 4px 16px;
+  border-radius: 999px;
+  background: var(--cl-tint);
+  color: var(--cl-accent-dark);
+  font-weight: 700;
+  font-size: 14.5px;
+}
+.cl-help {
+  display: none;
+  margin-top: 22px;
+  font-size: 14px;
+  color: var(--cl-muted);
+  text-align: center;
+}
+/* Form controls: the sizes of the sign-up pages. */
+.cl-form label {
+  font-size: 16px;
+}
+.cl-form label > span:first-child {
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  color: var(--cl-ink);
+}
+.cl-form label > input,
+.cl-control > input {
+  height: 56px;
+  padding: 0 18px;
+  border: 1.5px solid var(--cl-line);
+  border-radius: 14px;
+  font-size: 16px;
+  background: #fff;
+}
+.cl-form label > input::placeholder,
+.cl-control > input::placeholder {
+  font-style: normal;
+  color: #6b7488;
+}
+.cl-form label > input:focus-visible,
+.cl-control > input:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--cl-accent) 35%, white);
+  outline-offset: 0;
+  border-color: var(--cl-accent);
+}
+.cl-control.cl-has-icon > input {
+  padding-left: 52px;
+}
+.cl-control.cl-has-trailing > input {
+  padding-right: 56px;
+}
+/* The field with an icon or a control inside it. */
+.cl-control {
+  position: relative;
+  display: flex;
+  margin-bottom: 2px;
+}
+.cl-control > input {
+  width: 100%;
+  margin-bottom: 0;
+}
+.cl-input-icon,
+.cl-input-trailing {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  color: #5b667c;
+}
+.cl-input-icon {
+  left: 18px;
+  pointer-events: none;
+}
+.cl-input-icon svg {
+  width: 22px;
+  height: 22px;
+}
+.cl-input-trailing {
+  right: 8px;
+}
+.cl-eye {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: #5b667c;
+}
+.cl-eye:hover {
+  background: var(--cl-tint);
+  color: var(--cl-ink);
+}
+.cl-eye svg {
+  width: 22px;
+  height: 22px;
+}
+.cl-forgot {
+  display: block;
+  margin-top: 8px;
+  margin-left: auto;
+  min-height: 32px;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--cl-accent-dark);
+  border-radius: 6px;
+}
+.cl-forgot:hover {
+  text-decoration: underline;
+}
+.cl-form button[type="submit"] {
+  min-height: 48px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.cl-form button.cl-submit {
+  width: 100%;
+  height: auto;
+  min-height: 56px;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 700;
+}
+.cl-form button.cl-next:not(:disabled)::after {
+  content: "\2192";
+  font-size: 20px;
+  line-height: 1;
+}
+.cl-form button.cl-back {
+  background: #fff;
+  color: var(--cl-ink);
+  border: 1.5px solid color-mix(in srgb, var(--cl-accent) 35%, white);
+}
+.cl-form button.cl-back:hover {
+  background: var(--cl-tint);
+}
+.cl-backlink:focus-visible,
+.cl-eye:focus-visible,
+.cl-forgot:focus-visible,
+.cl-form button.cl-submit:focus-visible,
+.cl-switch a:focus-visible,
+.cl-account-change:focus-visible {
+  outline: 3px solid var(--cl-accent-dark);
+  outline-offset: 3px;
+}
+.cl-switch {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 17px;
+  color: var(--cl-muted);
+}
+.cl-switch a,
+.cl-account-change {
+  color: var(--cl-accent-dark);
+  font-weight: 700;
+}
+.cl-switch a:hover,
+.cl-account-change:hover {
+  text-decoration: underline;
+}
+/* The account being signed in (password and second-factor pages). */
+.cl-account {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 8px 16px 8px 10px;
+  border: 1.5px solid var(--cl-line);
+  border-radius: 14px;
+  background: #fff;
+}
+.cl-head .cl-account {
+  margin-top: 18px;
+}
+.cl-account-avatar {
+  flex: none;
+  width: 32px;
+  height: 32px;
+}
+.cl-account-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 600;
+}
+.cl-account-change {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 4px;
+  border-radius: 6px;
+  font-size: 15.5px;
+}
+@media (max-width: 860px) {
+  .cl-card {
+    grid-template-columns: 1fr;
+    align-content: start;
+  }
+  .cl-brand {
+    display: none;
+  }
+  .cl-mobilebrand {
+    display: flex;
+  }
+  .cl-formside {
+    padding: 28px 22px 32px;
+    justify-content: flex-start;
+  }
+  .cl-form {
+    max-width: 480px;
+  }
+  .cl-head h1,
+  .cl-head .ztdl-h1 {
+    font-size: 28px;
+  }
+  .cl-head p,
+  .cl-head .ztdl-p {
+    font-size: 16px;
+  }
+  .cl-help {
+    display: block;
   }
 }

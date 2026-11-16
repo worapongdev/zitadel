@@ -39,7 +39,9 @@ export const DEFAULT_COMPONENT_ROUNDNESS: ComponentRoundnessConfig = {
 export const DEFAULT_THEME: ThemeConfig = {
   roundness: "mid",
   componentRoundness: DEFAULT_COMPONENT_ROUNDNESS,
-  layout: "top-to-bottom",
+  // Custom login (saas-infra-template, ADR-0017): brand panel on the left and
+  // the form on the right, like Platform's sign-up pages.
+  layout: "side-by-side",
   appearance: "flat",
   spacing: "regular",
 };

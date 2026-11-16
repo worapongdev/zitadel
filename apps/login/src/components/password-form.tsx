@@ -2,6 +2,7 @@
 
 import { handleServerActionResponse } from "@/lib/client-utils";
 import { resetPassword, sendPassword } from "@/lib/server/password";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { create } from "@zitadel/client";
 import { ChecksSchema } from "@zitadel/proto/zitadel/session/v2/session_service_pb";
 import { LoginSettings } from "@zitadel/proto/zitadel/settings/v2/login_settings_pb";
@@ -11,8 +12,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, AlertType } from "./alert";
 import { AutoSubmitForm } from "./auto-submit-form";
-import { BackButton } from "./back-button";
-import { Button, ButtonVariants } from "./button";
+import { useOptionalText } from "./brand-text";
+import { Button, ButtonSizes, ButtonVariants } from "./button";
 import { TextInput } from "./input";
 import { Spinner } from "./spinner";
 import { Translated } from "./translated";
@@ -41,6 +42,10 @@ export function PasswordForm({ loginSettings, loginName, organization, defaultOr
   const [samlData, setSamlData] = useState<{ url: string; fields: Record<string, string> } | null>(null);
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
+  const optional = useOptionalText();
+  const toggleLabel =
+    optional(visible ? "brand.hidePassword" : "brand.showPassword") || (visible ? "Hide password" : "Show password");
 
   const router = useRouter();
 
@@ -114,16 +119,28 @@ export function PasswordForm({ loginSettings, loginName, organization, defaultOr
       <form className="w-full">
         <div className={`${error && "animate-shake transform-gpu"}`}>
           <TextInput
-            type="password"
-            autoComplete="password"
+            type={visible ? "text" : "password"}
+            autoComplete="current-password"
             autoFocus
             {...register("password", { required: t("verify.required.password") })}
             label={t("verify.labels.password")}
             data-testid="password-text-input"
+            trailing={
+              <button
+                type="button"
+                className="cl-eye"
+                onClick={() => setVisible((v) => !v)}
+                aria-label={toggleLabel}
+                aria-pressed={visible}
+                title={toggleLabel}
+              >
+                {visible ? <EyeSlashIcon /> : <EyeIcon />}
+              </button>
+            }
           />
           {!loginSettings?.hidePasswordReset && (
             <button
-              className="hover:text-primary-light-500 dark:hover:text-primary-dark-500 text-sm transition-all"
+              className="cl-forgot"
               onClick={() => resetPasswordAndContinue()}
               type="button"
               disabled={loading}
@@ -148,18 +165,27 @@ export function PasswordForm({ loginSettings, loginName, organization, defaultOr
           </div>
         )}
 
-        <div className="mt-8 flex w-full flex-row items-center">
-          <BackButton data-testid="back-button" />
-          <span className="flex-grow"></span>
+        <div className="mt-6 flex w-full flex-col gap-3">
           <Button
             type="submit"
-            className="self-end"
+            className="cl-submit cl-next"
             variant={ButtonVariants.Primary}
             disabled={loading || !formState.isValid}
             onClick={handleSubmit(submitPassword)}
             data-testid="submit-button"
           >
             {loading && <Spinner className="mr-2 h-5 w-5" />} <Translated i18nKey="verify.submit" namespace="password" />
+          </Button>
+          <Button
+            type="button"
+            className="cl-submit cl-back"
+            variant={ButtonVariants.Secondary}
+            size={ButtonSizes.Small}
+            onClick={() => router.back()}
+            data-testid="back-button"
+          >
+            <span aria-hidden="true">←</span>
+            <Translated i18nKey="back" namespace="common" />
           </Button>
         </div>
       </form>

@@ -4,7 +4,9 @@ import { ReactNode } from "react";
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   return (
-    <ThemeP attribute="class" defaultTheme="system" storageKey="cp-theme" value={{ dark: "dark" }}>
+    // Custom login (ADR-0017): one light theme, like Platform's sign-up pages;
+    // the visitor's system setting and an older stored choice are ignored.
+    <ThemeP attribute="class" defaultTheme="light" forcedTheme="light" storageKey="cp-theme" value={{ dark: "dark" }}>
       {children}
     </ThemeP>
   );

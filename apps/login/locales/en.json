@@ -1,4 +1,11 @@
 {
+  "brand": {
+    "name": "Login",
+    "headline": "Welcome back",
+    "change": "Change",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
+  },
   "common": {
     "back": "Back",
     "title": "Login with Zitadel"

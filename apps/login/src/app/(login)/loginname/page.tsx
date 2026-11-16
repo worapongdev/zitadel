@@ -1,3 +1,5 @@
+import { BackLink } from "@/components/back-link";
+import { StepChip } from "@/components/brand-text";
 import { DynamicTheme } from "@/components/dynamic-theme";
 import { SignInWithIdp } from "@/components/sign-in-with-idp";
 import { Translated } from "@/components/translated";
@@ -48,6 +50,8 @@ export default async function Page(props: { searchParams: Promise<Record<string 
   return (
     <DynamicTheme branding={branding}>
       <div className="flex flex-col space-y-4">
+        <BackLink />
+        <StepChip i18nKey="loginname.step" />
         <h1>
           <Translated i18nKey="title" namespace="loginname" />
         </h1>

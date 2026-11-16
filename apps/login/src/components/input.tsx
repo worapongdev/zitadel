@@ -16,6 +16,10 @@ export type TextInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElem
   onChange?: (value: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (value: ChangeEvent<HTMLInputElement>) => void;
   roundness?: string; // Allow override via props
+  /** Custom login: an icon inside the field, on the left. */
+  icon?: ReactNode;
+  /** Custom login: a control inside the field, on the right (show password). */
+  trailing?: ReactNode;
 };
 
 const styles = (error: boolean, disabled: boolean, roundnessClasses: string = "rounded-md") =>
@@ -51,6 +55,8 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       onChange,
       onBlur,
       roundness,
+      icon,
+      trailing,
       ...props
     },
     ref,
@@ -58,24 +64,40 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     // Use theme-based roundness if not explicitly provided
     const actualRoundness = roundness || getDefaultInputRoundness();
 
+    const input = (
+      <input
+        suppressHydrationWarning
+        ref={ref}
+        className={styles(!!error, !!disabled, actualRoundness)}
+        defaultValue={defaultValue}
+        required={required}
+        disabled={disabled}
+        placeholder={placeholder}
+        autoComplete={props.autoComplete ?? "off"}
+        onChange={(e) => onChange && onChange(e)}
+        onBlur={(e) => onBlur && onBlur(e)}
+        {...props}
+      />
+    );
+
     return (
       <label className="text-12px text-input-light-label dark:text-input-dark-label relative flex flex-col">
         <span className={`mb-1 leading-3 ${error ? "text-warn-light-500 dark:text-warn-dark-500" : ""}`}>
           {label} {required && "*"}
         </span>
-        <input
-          suppressHydrationWarning
-          ref={ref}
-          className={styles(!!error, !!disabled, actualRoundness)}
-          defaultValue={defaultValue}
-          required={required}
-          disabled={disabled}
-          placeholder={placeholder}
-          autoComplete={props.autoComplete ?? "off"}
-          onChange={(e) => onChange && onChange(e)}
-          onBlur={(e) => onBlur && onBlur(e)}
-          {...props}
-        />
+        {icon || trailing ? (
+          <div className={clsx("cl-control", { "cl-has-icon": !!icon, "cl-has-trailing": !!trailing })}>
+            {input}
+            {icon && (
+              <span className="cl-input-icon" aria-hidden="true">
+                {icon}
+              </span>
+            )}
+            {trailing && <span className="cl-input-trailing">{trailing}</span>}
+          </div>
+        ) : (
+          input
+        )}
 
         {suffix && (
           <span

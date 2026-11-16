@@ -1,0 +1,10 @@
+# Build context of apps/login/Dockerfile.custom (the repository root).
+.git
+**/node_modules
+**/.next
+**/dist
+.nx
+**/.turbo
+**/*.pat
+**/.env.local
+**/.env.*.local

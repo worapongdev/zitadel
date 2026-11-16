@@ -2,6 +2,7 @@
 
 import { handleServerActionResponse } from "@/lib/client-utils";
 import { sendLoginname } from "@/lib/server/loginname";
+import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import { LoginSettings } from "@zitadel/proto/zitadel/settings/v2/login_settings_pb";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -9,7 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert } from "./alert";
 import { AutoSubmitForm } from "./auto-submit-form";
-import { BackButton } from "./back-button";
+import { useOptionalText } from "./brand-text";
 import { Button, ButtonVariants } from "./button";
 import { TextInput } from "./input";
 import { Spinner } from "./spinner";
@@ -48,6 +49,12 @@ export function UsernameForm({
   });
 
   const t = useTranslations("loginname");
+  const optional = useOptionalText();
+  const placeholder = optional("loginname.placeholder");
+  // Sign-up lives outside this app (Platform's page): a deployment sets its URL.
+  const signupUrl = optional("brand.signupUrl");
+  const signupLink = optional("brand.signupLink");
+  const showSignup = !!signupLink && (signupUrl.startsWith("https://") || signupUrl.startsWith("/"));
 
   const router = useRouter();
 
@@ -112,6 +119,8 @@ export function UsernameForm({
             label={inputLabel}
             data-testid="username-text-input"
             suffix={suffix}
+            icon={<EnvelopeIcon />}
+            placeholder={placeholder || undefined}
           />
           {allowRegister && (
             <button
@@ -141,13 +150,11 @@ export function UsernameForm({
             <Alert>{error}</Alert>
           </div>
         )}
-        <div className="mt-4 flex w-full flex-row items-center">
-          <BackButton data-testid="back-button" />
-          <span className="flex-grow"></span>
+        <div className="mt-5 w-full">
           <Button
             data-testid="submit-button"
             type="submit"
-            className="self-end"
+            className="cl-submit cl-next"
             variant={ButtonVariants.Primary}
             disabled={loading || !formState.isValid}
             onClick={handleSubmit((e) => submitLoginName(e, organization))}
@@ -156,6 +163,11 @@ export function UsernameForm({
             <Translated i18nKey="submit" namespace="loginname" />
           </Button>
         </div>
+        {showSignup && (
+          <p className="cl-switch">
+            {optional("brand.signupPrompt")} <a href={signupUrl}>{signupLink}</a>
+          </p>
+        )}
       </form>
     </>
   );
