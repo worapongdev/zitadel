@@ -21,7 +21,8 @@ const neutral = "border-divider-light dark:border-divider-dark bg-black/5 text-g
 export function Alert({ children, type = AlertType.ALERT }: Props) {
   return (
     <div
-      className={clsx("flex scroll-px-40 flex-row items-center justify-center rounded-md border py-2 pr-2", {
+      className={clsx("cl-alert flex scroll-px-40 flex-row items-center justify-center rounded-md border py-2 pr-2", {
+        "cl-alert-info": type === AlertType.INFO,
         [yellow]: type === AlertType.ALERT,
         [neutral]: type === AlertType.INFO,
       })}

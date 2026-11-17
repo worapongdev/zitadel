@@ -232,20 +232,20 @@ html {
 }
 /* Form controls: the sizes of the sign-up pages. */
 .cl-form label {
-  font-size: 16px;
+  font-size: 15px;
 }
 .cl-form label > span:first-child {
   font-weight: 700;
   line-height: 1.4;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   color: var(--cl-ink);
 }
 .cl-form label > input,
 .cl-control > input {
-  height: 56px;
-  padding: 0 18px;
+  height: 46px;
+  padding: 0 16px;
   border: 1.5px solid var(--cl-line);
-  border-radius: 14px;
+  border-radius: 12px;
   font-size: 16px;
   background: #fff;
 }
@@ -261,10 +261,10 @@ html {
   border-color: var(--cl-accent);
 }
 .cl-control.cl-has-icon > input {
-  padding-left: 52px;
+  padding-left: 46px;
 }
 .cl-control.cl-has-trailing > input {
-  padding-right: 56px;
+  padding-right: 48px;
 }
 /* The field with an icon or a control inside it. */
 .cl-control {
@@ -286,7 +286,7 @@ html {
   color: #5b667c;
 }
 .cl-input-icon {
-  left: 18px;
+  left: 15px;
   pointer-events: none;
 }
 .cl-input-icon svg {
@@ -294,11 +294,11 @@ html {
   height: 22px;
 }
 .cl-input-trailing {
-  right: 8px;
+  right: 5px;
 }
 .cl-eye {
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
   border-radius: 10px;
@@ -334,11 +334,11 @@ html {
 .cl-form button.cl-submit {
   width: 100%;
   height: auto;
-  min-height: 56px;
+  min-height: 48px;
   justify-content: center;
   gap: 10px;
-  border-radius: 14px;
-  font-size: 17px;
+  border-radius: 12px;
+  font-size: 16px;
   font-weight: 700;
 }
 .cl-form button.cl-next:not(:disabled)::after {
@@ -353,6 +353,50 @@ html {
 }
 .cl-form button.cl-back:hover {
   background: var(--cl-tint);
+}
+/* The row of buttons that ends every form of the login (back + continue):
+   one column, the main button first. Matches upstream's utility classes, so
+   forms we did not touch get the same look. */
+.cl-form .flex.w-full.flex-row.items-center:is(.mt-8, .mt-4):has(> button) {
+  flex-direction: column-reverse;
+  align-items: stretch;
+  gap: 12px;
+}
+.cl-form .flex.w-full.flex-row.items-center:is(.mt-8, .mt-4):has(> button) > span:empty {
+  display: none;
+}
+.cl-form .flex.w-full.flex-row.items-center:is(.mt-8, .mt-4) > button {
+  width: 100%;
+  height: auto;
+  min-height: 48px;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+}
+.cl-form .flex.w-full.flex-row.items-center:is(.mt-8, .mt-4) > button[type="submit"]:not(:disabled)::after {
+  content: "\2192";
+  font-size: 20px;
+  line-height: 1;
+}
+/* Messages inside a form. */
+.cl-form .cl-alert {
+  padding: 9px 12px 9px 4px;
+  border-radius: 12px;
+  font-size: 15px;
+}
+.cl-form .cl-alert > span {
+  font-size: 15px;
+}
+.cl-form .cl-alert-info {
+  border-color: transparent;
+  background: var(--cl-tint);
+  color: var(--cl-ink);
+}
+.cl-form .cl-alert button {
+  color: var(--cl-accent-dark);
+  font-weight: 700;
 }
 .cl-backlink:focus-visible,
 .cl-eye:focus-visible,
@@ -383,10 +427,10 @@ html {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 60px;
-  padding: 8px 16px 8px 10px;
+  min-height: 50px;
+  padding: 6px 14px 6px 8px;
   border: 1.5px solid var(--cl-line);
-  border-radius: 14px;
+  border-radius: 12px;
   background: #fff;
 }
 .cl-head .cl-account {

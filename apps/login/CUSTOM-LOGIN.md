@@ -19,9 +19,14 @@ Branch `custom-login` คือหน้า login ของ ZITADEL รุ่น
 | `src/components/input.tsx` | เพิ่ม prop `icon` (ไอคอนในช่อง ด้านซ้าย) และ `trailing` (ปุ่มในช่อง ด้านขวา) |
 | `src/components/username-form.tsx` | ไอคอนซองจดหมาย, placeholder, ปุ่มเต็มความกว้าง, ลิงก์ "สร้างบัญชี" ไปหน้าสมัครของ Platform |
 | `src/components/password-form.tsx` | ปุ่มแสดง/ซ่อนรหัสผ่าน, "ลืมรหัสผ่าน?" ชิดขวา, ปุ่มเต็มความกว้าง, ปุ่มย้อนกลับแบบรอง |
+| `src/components/password-input.tsx` (ของเรา) | ช่องรหัสผ่านพร้อมปุ่มแสดง/ซ่อน ใช้ใน `password-form`, `set-password-form`, `change-password-form`, `set-register-password-form` |
+| `src/components/back-button.tsx`, `src/components/alert.tsx` | เพิ่ม class (`cl-back`, `cl-alert`) ให้ CSS จัดหน้าตา |
 | `src/components/user-avatar.tsx` | กล่องบัญชีแบบใหม่พร้อมลิงก์ "เปลี่ยน" |
 | `src/app/(login)/loginname/page.tsx`, `src/app/(login)/password/page.tsx` | ลิงก์ย้อนกลับและป้ายขั้นตอนเหนือหัวข้อ |
 | `Dockerfile.custom` (+ `.dockerignore`) | build ทั้งหมดใน Docker |
+
+แถวปุ่มท้ายฟอร์ม (ย้อนกลับ + ดำเนินการต่อ) ของทุกหน้าจัดด้วย CSS ใน `globals.scss` ที่จับ utility class ของต้นฉบับ
+(`flex w-full flex-row items-center` + `mt-8`/`mt-4`) จึงไม่ต้องแก้ไฟล์ฟอร์มทีละไฟล์ ถ้าอัปเกรดแล้วปุ่มกลับเป็นแบบเดิม ให้ดูว่า class ของแถวนั้นเปลี่ยนหรือไม่
 
 ข้อความของแถบแบรนด์ (`brand.name`, `brand.headline`, `brand.text`, `brand.help`) มาจากข้อความแปลใน ZITADEL
 เหมือนข้อความอื่น: `zitadel/login-texts.ps1` ใส่ชื่อผลิตภัณฑ์และข้อความช่วยเหลือจาก `.env` ของ `saas-infra-template` ให้

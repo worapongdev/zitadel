@@ -12,8 +12,8 @@ import { Alert } from "./alert";
 import { AutoSubmitForm } from "./auto-submit-form";
 import { BackButton } from "./back-button";
 import { Button, ButtonVariants } from "./button";
-import { TextInput } from "./input";
 import { PasswordComplexity } from "./password-complexity";
+import { PasswordInput } from "./password-input";
 import { Spinner } from "./spinner";
 import { Translated } from "./translated";
 
@@ -103,8 +103,7 @@ export function SetRegisterPasswordForm({
       <form className="w-full">
         <div className="mb-4 grid grid-cols-1 gap-4 pt-4">
           <div className="">
-            <TextInput
-              type="password"
+            <PasswordInput
               autoComplete="new-password"
               autoFocus
               required
@@ -117,8 +116,7 @@ export function SetRegisterPasswordForm({
             />
           </div>
           <div className="">
-            <TextInput
-              type="password"
+            <PasswordInput
               required
               autoComplete="new-password"
               {...register("confirmPassword", {

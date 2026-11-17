@@ -2,7 +2,6 @@
 
 import { handleServerActionResponse } from "@/lib/client-utils";
 import { resetPassword, sendPassword } from "@/lib/server/password";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { create } from "@zitadel/client";
 import { ChecksSchema } from "@zitadel/proto/zitadel/session/v2/session_service_pb";
 import { LoginSettings } from "@zitadel/proto/zitadel/settings/v2/login_settings_pb";
@@ -12,9 +11,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, AlertType } from "./alert";
 import { AutoSubmitForm } from "./auto-submit-form";
-import { useOptionalText } from "./brand-text";
 import { Button, ButtonSizes, ButtonVariants } from "./button";
-import { TextInput } from "./input";
+import { PasswordInput } from "./password-input";
 import { Spinner } from "./spinner";
 import { Translated } from "./translated";
 
@@ -42,10 +40,6 @@ export function PasswordForm({ loginSettings, loginName, organization, defaultOr
   const [samlData, setSamlData] = useState<{ url: string; fields: Record<string, string> } | null>(null);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [visible, setVisible] = useState<boolean>(false);
-  const optional = useOptionalText();
-  const toggleLabel =
-    optional(visible ? "brand.hidePassword" : "brand.showPassword") || (visible ? "Hide password" : "Show password");
 
   const router = useRouter();
 
@@ -118,25 +112,12 @@ export function PasswordForm({ loginSettings, loginName, organization, defaultOr
       {samlData && <AutoSubmitForm url={samlData.url} fields={samlData.fields} />}
       <form className="w-full">
         <div className={`${error && "animate-shake transform-gpu"}`}>
-          <TextInput
-            type={visible ? "text" : "password"}
+          <PasswordInput
             autoComplete="current-password"
             autoFocus
             {...register("password", { required: t("verify.required.password") })}
             label={t("verify.labels.password")}
             data-testid="password-text-input"
-            trailing={
-              <button
-                type="button"
-                className="cl-eye"
-                onClick={() => setVisible((v) => !v)}
-                aria-label={toggleLabel}
-                aria-pressed={visible}
-                title={toggleLabel}
-              >
-                {visible ? <EyeSlashIcon /> : <EyeIcon />}
-              </button>
-            }
           />
           {!loginSettings?.hidePasswordReset && (
             <button

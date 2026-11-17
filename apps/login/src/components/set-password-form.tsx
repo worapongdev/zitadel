@@ -16,6 +16,7 @@ import { BackButton } from "./back-button";
 import { Button, ButtonVariants } from "./button";
 import { TextInput } from "./input";
 import { PasswordComplexity } from "./password-complexity";
+import { PasswordInput } from "./password-input";
 import { Spinner } from "./spinner";
 import { Translated } from "./translated";
 
@@ -214,8 +215,7 @@ export function SetPasswordForm({
             </div>
           )}
           <div>
-            <TextInput
-              type="password"
+            <PasswordInput
               autoComplete="new-password"
               autoFocus={!codeRequired}
               required
@@ -228,8 +228,7 @@ export function SetPasswordForm({
             />
           </div>
           <div>
-            <TextInput
-              type="password"
+            <PasswordInput
               required
               autoComplete="new-password"
               {...register("confirmPassword", {
