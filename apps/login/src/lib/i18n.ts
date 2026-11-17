@@ -60,6 +60,12 @@ export const LANGS: Lang[] = [
     name: "العربية",
     code: "ar",
   },
+  // Custom login (saas-infra-template): our own texts, locales/th.json.
+  // ZITADEL has no Thai; see CUSTOM_LOGIN_LANGUAGE in lib/custom-login.ts.
+  {
+    name: "ไทย",
+    code: "th",
+  },
 ];
 
 export const LANGUAGE_COOKIE_NAME = "NEXT_LOCALE";

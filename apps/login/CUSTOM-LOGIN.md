@@ -22,6 +22,10 @@ Branch `custom-login` คือหน้า login ของ ZITADEL รุ่น
 | `src/components/password-input.tsx` (ของเรา) | ช่องรหัสผ่านพร้อมปุ่มแสดง/ซ่อน ใช้ใน `password-form`, `set-password-form`, `change-password-form`, `set-register-password-form` |
 | `src/components/back-button.tsx`, `src/components/alert.tsx` | เพิ่ม class (`cl-back`, `cl-alert`) ให้ CSS จัดหน้าตา |
 | `src/i18n/request.ts` | ข้อความระดับ instance เป็นฐาน แล้วทับด้วยข้อความของ organization (ต้นฉบับใช้ของ organization อย่างเดียวเมื่อ URL มี `organization=` หน้าจึงกลับเป็นภาษาอังกฤษ) |
+| `src/lib/custom-login.ts` (+ test, ของเรา) | ค่าของ deployment จาก env `CUSTOM_LOGIN_*`: ภาษาเดียวของหน้า login, ชื่อผลิตภัณฑ์, ข้อความช่วยเหลือ, ลิงก์สมัคร, สีหลัก |
+| `locales/th.json` (ของเรา) | ข้อความภาษาไทยทั้งชุด อยู่ใน image |
+| `src/lib/i18n.ts` | เพิ่มภาษา `th` ในรายการ |
+| `src/lib/zitadel.ts` | `getBrandingSettings` แทนสีหลักด้วย `CUSTOM_LOGIN_PRIMARY_COLOR` เมื่อตั้งไว้ |
 | `src/components/user-avatar.tsx` | กล่องบัญชีแบบใหม่พร้อมลิงก์ "เปลี่ยน" |
 | `src/app/(login)/loginname/page.tsx`, `src/app/(login)/password/page.tsx` | ลิงก์ย้อนกลับและป้ายขั้นตอนเหนือหัวข้อ |
 | `Dockerfile.custom` (+ `.dockerignore`) | build ทั้งหมดใน Docker |
@@ -39,7 +43,23 @@ Branch `custom-login` คือหน้า login ของ ZITADEL รุ่น
 สี โลโก้ และข้อความภาษาไทย **ไม่ได้อยู่ในโค้ดนี้** มาจากการตั้งค่าใน ZITADEL:
 สีจาก Terraform (`zitadel/terraform/branding.tf`) และข้อความจาก `zitadel/login-texts.ps1` ใน `saas-infra-template`
 
+## ค่าที่ deployment ตั้งได้ (env)
+
+| ตัวแปร | ความหมาย | ค่าใน image |
+|---|---|---|
+| `CUSTOM_LOGIN_LANGUAGE` | ภาษาเดียวของหน้า login (ชื่อไฟล์ใน `locales/`) ไม่ขึ้นกับภาษาที่ ZITADEL อนุญาต และไม่สนภาษาของ browser | `th` |
+| `CUSTOM_LOGIN_PRIMARY_COLOR` | สีหลัก `#rrggbb` แทนสีจาก branding ของ ZITADEL; ค่าว่าง = ใช้ของ ZITADEL | `#2456d6` |
+| `CUSTOM_LOGIN_BRAND_NAME` | ชื่อผลิตภัณฑ์บนแถบแบรนด์ | — |
+| `CUSTOM_LOGIN_BRAND_HELP` | ข้อความช่วยเหลือ | — |
+| `CUSTOM_LOGIN_SIGNUP_URL` | ลิงก์ "สร้างบัญชี" (https หรือ path) ไม่ตั้ง = ไม่แสดง | — |
+
+ลำดับของข้อความ: `locales/en.json` → `locales/<ภาษา>.json` → ค่าจาก env → ข้อความที่เก็บใน ZITADEL (hosted login translation ของภาษาเริ่มต้นของ instance) ตัวหลังทับตัวหน้า
+ดังนั้นไม่ต้องรัน `zitadel/login-texts.ps1` อีก แต่ deployment ที่เคยรันไว้จะยังเห็นข้อความชุดนั้น จนกว่าจะลบด้วย `login-texts.ps1 -Remove`
+
 ## Build image
+
+**image สำหรับใช้งานจริง** ออกด้วย `scripts/build-images.ps1` ของ `saas-infra-template` จาก git tag `login-v<รุ่น ZITADEL>-<ลำดับ>` ของ repository นี้ (ดู `docs/16-images.md` ที่นั่น) ได้ `saas-infra/zitadel-login:<รุ่น ZITADEL>-<ลำดับ>` คำสั่ง `docker build` ข้างล่างใช้ตอนพัฒนาเท่านั้น
+
 
 รันจาก**รากของ repository นี้** (ไม่ใช่ใน `apps/login`):
 

@@ -4,7 +4,10 @@
 # this checkout inside Docker and packs it like apps/login/Dockerfile does.
 # The build context is the REPOSITORY ROOT:
 #
-#   docker build -f apps/login/Dockerfile.custom -t saas-zitadel-login:v4.15.3-custom.1 .
+#   docker build -f apps/login/Dockerfile.custom -t saas-infra/zitadel-login:4.15.3-1 .
+#
+# Release images are built by scripts/build-images.ps1 of saas-infra-template
+# from a tag login-v<zitadel release>-<n> of this repository.
 #
 # The first build downloads the whole workspace's dependencies and the
 # protobuf modules (npm registry, buf.build): several minutes and a few GB of
@@ -45,7 +48,12 @@ ENV HOSTNAME="::" \
     SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt" \
     ZITADEL_TLS_ENABLED="false" \
     OTEL_SERVICE_NAME="zitadel-login" \
-    OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
+    OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf" \
+    CUSTOM_LOGIN_LANGUAGE="th" \
+    CUSTOM_LOGIN_PRIMARY_COLOR="#2456d6"
+# The two CUSTOM_LOGIN_* values above are the defaults of this build
+# (src/lib/custom-login.ts); a deployment may set them and the other
+# CUSTOM_LOGIN_* variables. Nothing of a deployment is in the image.
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD ["/usr/local/bin/node", "/app/healthcheck.mjs", "/ui/v2/login/ready"]

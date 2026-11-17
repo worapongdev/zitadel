@@ -1,3 +1,4 @@
+import { withPrimaryColor } from "@/lib/custom-login";
 import { createConnectTransport } from "@connectrpc/connect-node";
 import { Client, create, Duration } from "@zitadel/client";
 import { makeReqCtx } from "@zitadel/client/v2";
@@ -140,9 +141,12 @@ export async function getBrandingSettings({
   const fetcher = async () => {
     const settingsService: Client<typeof SettingsService> = await createServiceForHost(SettingsService, serviceConfig);
 
-    return settingsService
-      .getBrandingSettings({ ctx: makeReqCtx(organization) }, {})
-      .then((resp) => (resp.settings ? resp.settings : undefined));
+    return (
+      settingsService
+        .getBrandingSettings({ ctx: makeReqCtx(organization) }, {})
+        // Custom login: CUSTOM_LOGIN_PRIMARY_COLOR replaces the primary colour.
+        .then((resp) => withPrimaryColor(resp.settings ? resp.settings : undefined))
+    );
   };
 
   return freshCache(

@@ -1,3 +1,4 @@
+import { brandMessagesFromEnv, forcedLanguage } from "@/lib/custom-login";
 import { LANGS, LANGUAGE_COOKIE_NAME, LANGUAGE_HEADER_NAME } from "@/lib/i18n";
 import { getServiceConfig } from "@/lib/service-url";
 import { getAllowedLanguages, getHostedLoginTranslation } from "@/lib/zitadel";
@@ -50,6 +51,16 @@ export default getRequestConfig(async () => {
     }
   }
 
+  // Custom login (saas-infra-template): one language for everybody when
+  // CUSTOM_LOGIN_LANGUAGE names one, whatever ZITADEL allows and whatever the
+  // browser or a cookie asks for. Texts stored in ZITADEL are then read for
+  // the default language of the instance (ZITADEL may not know ours).
+  const forced = forcedLanguage(LANGS.map((l) => l.code));
+  const hostedLocale = forced ? defaultLanguage : locale;
+  if (forced) {
+    locale = forced;
+  }
+
   const i18nOrganization = _headers.get("x-zitadel-i18n-organization") || ""; // You may need to set this header in middleware
 
   // Custom login (saas-infra-template): the instance's texts are the base and
@@ -58,7 +69,7 @@ export default getRequestConfig(async () => {
   // `organization=` fell back to the built-in English.
   const load = async (organization: string): Promise<JsonObject | Record<string, never>> => {
     try {
-      return (await getHostedLoginTranslation({ serviceConfig, locale, organization })) ?? {};
+      return (await getHostedLoginTranslation({ serviceConfig, locale: hostedLocale, organization })) ?? {};
     } catch (error) {
       console.warn("Error fetching custom translations:", error);
       return {};
@@ -86,6 +97,11 @@ export default getRequestConfig(async () => {
 
   return {
     locale,
-    messages: deepmerge.all([fallbackMessages, localeMessages, customMessages]) as Record<string, string>,
+    // Brand texts of the environment sit between the shipped texts and the
+    // ones stored in ZITADEL.
+    messages: deepmerge.all([fallbackMessages, localeMessages, brandMessagesFromEnv(), customMessages]) as Record<
+      string,
+      string
+    >,
   };
 });
