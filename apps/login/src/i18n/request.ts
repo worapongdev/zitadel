@@ -52,20 +52,21 @@ export default getRequestConfig(async () => {
 
   const i18nOrganization = _headers.get("x-zitadel-i18n-organization") || ""; // You may need to set this header in middleware
 
-  let translations: JsonObject | Record<string, never> = {};
-  try {
-    const i18nJSON = await getHostedLoginTranslation({
-      serviceConfig,
-      locale,
-      organization: i18nOrganization,
-    });
-
-    if (i18nJSON) {
-      translations = i18nJSON;
+  // Custom login (saas-infra-template): the instance's texts are the base and
+  // an organization's own texts go on top. Upstream asked for the
+  // organization's texts alone when the URL names one, so every page with
+  // `organization=` fell back to the built-in English.
+  const load = async (organization: string): Promise<JsonObject | Record<string, never>> => {
+    try {
+      return (await getHostedLoginTranslation({ serviceConfig, locale, organization })) ?? {};
+    } catch (error) {
+      console.warn("Error fetching custom translations:", error);
+      return {};
     }
-  } catch (error) {
-    console.warn("Error fetching custom translations:", error);
-  }
+  };
+  const instanceTranslations = await load("");
+  const organizationTranslations = i18nOrganization ? await load(i18nOrganization) : {};
+  const translations = deepmerge(instanceTranslations, organizationTranslations) as JsonObject;
 
   const customMessages = translations;
 

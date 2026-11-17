@@ -1,37 +1,34 @@
 #0 building with "desktop-linux" instance using docker driver
 
 #1 [internal] load build definition from Dockerfile.custom
-#1 transferring dockerfile: 2.42kB 0.0s done
+#1 transferring dockerfile: 2.42kB done
 #1 DONE 0.0s
 
 #2 resolve image config for docker-image://docker.io/docker/dockerfile:1
-#2 DONE 1.7s
+#2 DONE 1.8s
 
 #3 docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
 #3 resolve docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e 0.0s done
 #3 CACHED
 
 #4 [internal] load metadata for docker.io/library/node:20-bookworm
-#4 DONE 1.5s
+#4 DONE 1.6s
 
 #5 [internal] load metadata for docker.io/library/node:24-alpine
-#5 DONE 1.5s
+#5 DONE 1.6s
 
-#6 [internal] load build context
+#6 [stage-1 1/5] FROM docker.io/library/node:24-alpine@sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5
+#6 resolve docker.io/library/node:24-alpine@sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5 0.0s done
 #6 DONE 0.0s
 
 #7 [build 1/7] FROM docker.io/library/node:20-bookworm@sha256:8f693eaa7e0a8e71560c9a82b55fd54c2ae920a2ba5d2cde28bac7d1c01c9ba5
 #7 resolve docker.io/library/node:20-bookworm@sha256:8f693eaa7e0a8e71560c9a82b55fd54c2ae920a2ba5d2cde28bac7d1c01c9ba5 0.0s done
 #7 DONE 0.0s
 
-#8 [stage-1 1/5] FROM docker.io/library/node:24-alpine@sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5
-#8 resolve docker.io/library/node:24-alpine@sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5 0.0s done
-#8 DONE 0.0s
-
-#6 [internal] load build context
-#6 transferring context:
-#6 transferring context: 760.48kB 1.0s done
-#6 DONE 1.1s
+#8 [internal] load build context
+#8 transferring context: 131.23kB 0.1s
+#8 transferring context: 761.50kB 0.6s done
+#8 DONE 0.7s
 
 #9 [build 2/7] WORKDIR /repo
 #9 CACHED
@@ -40,204 +37,203 @@
 #10 CACHED
 
 #11 [build 4/7] COPY . .
-#11 DONE 4.0s
+#11 DONE 3.1s
 
 #12 [build 5/7] RUN find apps/login/scripts -type f -exec sed -i 's/\r$//' {} +
-#12 DONE 0.4s
+#12 DONE 0.5s
 
 #13 [build 6/7] RUN pnpm install --frozen-lockfile
-#13 0.722 ! Corepack is about to download https://registry.npmjs.org/pnpm/-/pnpm-10.30.3.tgz
-#13 3.271 Scope: all 8 workspace projects
-#13 3.444 Lockfile is up to date, resolution step is skipped
-#13 3.632 Progress: resolved 1, reused 0, downloaded 0, added 0
-#13 4.168 Packages: +2181
-#13 4.168 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#13 4.636 Progress: resolved 2181, reused 0, downloaded 0, added 0
-#13 5.638 Progress: resolved 2181, reused 0, downloaded 67, added 66
-#13 6.654 Progress: resolved 2181, reused 0, downloaded 223, added 189
-#13 7.659 Progress: resolved 2181, reused 0, downloaded 369, added 367
-#13 8.661 Progress: resolved 2181, reused 0, downloaded 502, added 501
-#13 9.667 Progress: resolved 2181, reused 0, downloaded 629, added 629
-#13 10.67 Progress: resolved 2181, reused 0, downloaded 697, added 699
-#13 11.67 Progress: resolved 2181, reused 0, downloaded 768, added 772
-#13 12.68 Progress: resolved 2181, reused 0, downloaded 937, added 932
-#13 13.68 Progress: resolved 2181, reused 0, downloaded 1077, added 1088
-#13 14.68 Progress: resolved 2181, reused 0, downloaded 1168, added 1180
-#13 15.68 Progress: resolved 2181, reused 0, downloaded 1294, added 1306
-#13 16.69 Progress: resolved 2181, reused 0, downloaded 1457, added 1465
-#13 17.71 Progress: resolved 2181, reused 0, downloaded 1573, added 1589
-#13 18.72 Progress: resolved 2181, reused 0, downloaded 1675, added 1691
-#13 19.72 Progress: resolved 2181, reused 0, downloaded 1827, added 1843
-#13 20.72 Progress: resolved 2181, reused 0, downloaded 1985, added 1999
-#13 21.72 Progress: resolved 2181, reused 0, downloaded 2091, added 2107
-#13 22.72 Progress: resolved 2181, reused 0, downloaded 2159, added 2176
-#13 23.72 Progress: resolved 2181, reused 0, downloaded 2162, added 2179
-#13 24.72 Progress: resolved 2181, reused 0, downloaded 2163, added 2180
-#13 25.22 Progress: resolved 2181, reused 0, downloaded 2164, added 2181, done
-#13 26.89 
-#13 26.89 devDependencies:
-#13 26.89 + @bufbuild/buf 1.70.0
-#13 26.89 + @changesets/cli 2.31.0
-#13 26.89 + nx 21.6.11
-#13 26.89 + sass 1.99.0
-#13 26.89 + shiki 3.23.0
-#13 26.89 + wait-on 9.0.10
-#13 26.89 
-#13 26.99 Done in 24.3s using pnpm v10.30.3
-#13 DONE 28.3s
+#13 0.807 ! Corepack is about to download https://registry.npmjs.org/pnpm/-/pnpm-10.30.3.tgz
+#13 3.856 Scope: all 8 workspace projects
+#13 3.995 Lockfile is up to date, resolution step is skipped
+#13 4.182 Progress: resolved 1, reused 0, downloaded 0, added 0
+#13 4.479 Packages: +2181
+#13 4.479 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#13 5.185 Progress: resolved 2181, reused 0, downloaded 0, added 0
+#13 6.185 Progress: resolved 2181, reused 0, downloaded 97, added 97
+#13 7.187 Progress: resolved 2181, reused 0, downloaded 278, added 197
+#13 8.189 Progress: resolved 2181, reused 0, downloaded 377, added 377
+#13 9.206 Progress: resolved 2181, reused 0, downloaded 514, added 476
+#13 10.21 Progress: resolved 2181, reused 0, downloaded 631, added 633
+#13 11.21 Progress: resolved 2181, reused 0, downloaded 705, added 706
+#13 12.21 Progress: resolved 2181, reused 0, downloaded 837, added 842
+#13 13.21 Progress: resolved 2181, reused 0, downloaded 1059, added 1072
+#13 14.21 Progress: resolved 2181, reused 0, downloaded 1172, added 1184
+#13 15.21 Progress: resolved 2181, reused 0, downloaded 1405, added 1414
+#13 16.21 Progress: resolved 2181, reused 0, downloaded 1561, added 1577
+#13 17.22 Progress: resolved 2181, reused 0, downloaded 1628, added 1643
+#13 18.25 Progress: resolved 2181, reused 0, downloaded 1749, added 1740
+#13 19.24 Progress: resolved 2181, reused 0, downloaded 1875, added 1825
+#13 20.24 Progress: resolved 2181, reused 0, downloaded 2031, added 2048
+#13 21.24 Progress: resolved 2181, reused 0, downloaded 2142, added 2158
+#13 22.24 Progress: resolved 2181, reused 0, downloaded 2161, added 2178
+#13 23.24 Progress: resolved 2181, reused 0, downloaded 2162, added 2179
+#13 25.54 Progress: resolved 2181, reused 0, downloaded 2163, added 2179
+#13 26.01 Progress: resolved 2181, reused 0, downloaded 2164, added 2181, done
+#13 27.59 
+#13 27.59 devDependencies:
+#13 27.59 + @bufbuild/buf 1.70.0
+#13 27.59 + @changesets/cli 2.31.0
+#13 27.59 + nx 21.6.11
+#13 27.59 + sass 1.99.0
+#13 27.59 + shiki 3.23.0
+#13 27.59 + wait-on 9.0.10
+#13 27.59 
+#13 27.69 Done in 24.4s using pnpm v10.30.3
+#13 DONE 29.1s
 
 #14 [build 7/7] RUN pnpm nx run @zitadel/login:build
-#14 6.824 
-#14 6.824  NX   Nx Cloud manually disabled
-#14 6.825 
-#14 6.825 Nx will continue running, but nothing will be written or read from the remote cache.
-#14 6.825 Run details will also not be available in the Nx Cloud UI.
-#14 6.825 
-#14 6.825 If this wasn't intentional, check for the NX_NO_CLOUD environment variable or the --no-cloud flag.
-#14 6.825 
-#14 6.826 
-#14 6.826  NX   Running target build for project @zitadel/login and 2 tasks it depends on:
-#14 6.826 
-#14 6.827 
-#14 44.59 
-#14 44.59 > nx run @zitadel/proto:generate
-#14 44.59 
-#14 44.59 > pnpm exec buf generate ../../proto
-#14 44.59 
-#14 49.86 
-#14 49.86 > nx run @zitadel/client:build
-#14 49.86 
-#14 49.86 
-#14 49.86 > @zitadel/client@ build /repo/packages/zitadel-client
-#14 49.86 > tsup
-#14 49.86 
-#14 49.86 CLI Building entry: src/index.ts, src/node.ts, src/v1.ts, src/v2.ts, src/v3alpha.ts, src/web.ts
-#14 49.86 CLI Using tsconfig: tsconfig.json
-#14 49.86 CLI tsup v8.5.1
-#14 49.86 CLI Using tsup config: /repo/packages/zitadel-client/tsup.config.ts
-#14 49.86 CLI Target: es2022
-#14 49.86 CLI Cleaning output folder
-#14 49.86 ESM Build start
-#14 49.86 CJS Build start
-#14 49.86 ESM dist/index.js              659.00 B
-#14 49.86 ESM dist/node.js               1.52 KB
-#14 49.86 ESM dist/v1.js                 765.00 B
-#14 49.86 ESM dist/v2.js                 1.84 KB
-#14 49.86 ESM dist/v3alpha.js            529.00 B
-#14 49.86 ESM dist/chunk-27KHKGT3.js     392.00 B
-#14 49.86 ESM dist/web.js                413.00 B
-#14 49.86 ESM dist/chunk-H5CIUTXZ.js     333.00 B
-#14 49.86 ESM dist/index.js.map          890.00 B
-#14 49.86 ESM dist/v2.js.map             2.33 KB
-#14 49.86 ESM dist/v3alpha.js.map        620.00 B
-#14 49.86 ESM dist/chunk-27KHKGT3.js.map 750.00 B
-#14 49.86 ESM dist/v1.js.map             928.00 B
-#14 49.86 ESM dist/web.js.map            843.00 B
-#14 49.86 ESM dist/chunk-H5CIUTXZ.js.map 841.00 B
-#14 49.86 ESM dist/node.js.map           3.54 KB
-#14 49.86 ESM โก๏ธ Build success in 113ms
-#14 49.86 CJS dist/index.cjs              1015.00 B
-#14 49.86 CJS dist/v3alpha.cjs            785.00 B
-#14 49.86 CJS dist/web.cjs                536.00 B
-#14 49.86 CJS dist/chunk-DUECDNWC.cjs     522.00 B
-#14 49.86 CJS dist/v1.cjs                 1.11 KB
-#14 49.86 CJS dist/chunk-RFOVJJ5M.cjs     440.00 B
-#14 49.86 CJS dist/node.cjs               2.52 KB
-#14 49.86 CJS dist/v2.cjs                 2.65 KB
-#14 49.86 CJS dist/index.cjs.map          1.05 KB
-#14 49.86 CJS dist/web.cjs.map            1.01 KB
-#14 49.86 CJS dist/chunk-DUECDNWC.cjs.map 969.00 B
-#14 49.86 CJS dist/v3alpha.cjs.map        794.00 B
-#14 49.86 CJS dist/chunk-RFOVJJ5M.cjs.map 1.06 KB
-#14 49.86 CJS dist/v2.cjs.map             2.62 KB
-#14 49.86 CJS dist/node.cjs.map           4.15 KB
-#14 49.86 CJS dist/v1.cjs.map             1.09 KB
-#14 49.86 CJS โก๏ธ Build success in 117ms
-#14 49.86 DTS Build start
-#14 49.86 DTS โก๏ธ Build success in 3912ms
-#14 49.86 DTS dist/index.d.ts    1.03 KB
-#14 49.86 DTS dist/node.d.ts     1004.00 B
-#14 49.86 DTS dist/v1.d.ts       146.46 KB
-#14 49.86 DTS dist/v2.d.ts       32.61 KB
-#14 49.86 DTS dist/v3alpha.d.ts  13.82 KB
-#14 49.86 DTS dist/web.d.ts      406.00 B
-#14 49.86 DTS dist/index.d.cts   1.03 KB
-#14 49.86 DTS dist/node.d.cts    1004.00 B
-#14 49.86 DTS dist/v1.d.cts      146.46 KB
-#14 49.86 DTS dist/v2.d.cts      32.61 KB
-#14 49.86 DTS dist/v3alpha.d.cts 13.82 KB
-#14 49.86 DTS dist/web.d.cts     406.00 B
-#14 49.87 
-#14 49.87 > nx run @zitadel/login:build
-#14 49.87 
-#14 50.27 ! Corepack is about to download https://registry.npmjs.org/pnpm/-/pnpm-10.28.2.tgz
-#14 52.62 > @zitadel/login@ build /repo/apps/login
-#14 52.62 > NEXT_OUTPUT_MODE=standalone next build && cp -r public scripts/* .next/standalone/ && mv .next/standalone/apps/login/server.js .next/standalone/apps/login/next-server.js && cp .next/standalone/server.mjs .next/standalone/apps/login/server.js && cp -r .next/static .next/standalone/apps/login/.next/ && rm .next/standalone/apps/login/.env
-#14 53.21 โ  No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
-#14 53.24 โ–ฒ Next.js 16.2.6 (Turbopack)
-#14 53.24 - Environments: .env
-#14 53.24 - Experiments (use with caution):
-#14 53.24   ยท optimizePackageImports
-#14 53.24   ยท serverActions
-#14 53.28   Creating an optimized production build ...
-#14 63.65 โ“ Compiled successfully in 10.1s
-#14 63.65   Running TypeScript ...
-#14 75.99   Finished TypeScript in 12.3s ...
-#14 76.00   Collecting page data using 11 workers ...
-#14 77.88   Generating static pages using 11 workers (0/29) ...
-#14 78.25   Generating static pages using 11 workers (7/29) 
-#14 78.27   Generating static pages using 11 workers (14/29) 
-#14 78.40   Generating static pages using 11 workers (21/29) 
-#14 78.52 โ“ Generating static pages using 11 workers (29/29) in 641ms
-#14 78.53   Finalizing page optimization ...
-#14 79.54 Route (app)
-#14 79.54 โ” ฦ’ /
-#14 79.54 โ” โ— /_not-found
-#14 79.54 โ” ฦ’ /accounts
-#14 79.54 โ” ฦ’ /authenticator/set
-#14 79.54 โ” ฦ’ /device
-#14 79.54 โ” ฦ’ /device/consent
-#14 79.54 โ” ฦ’ /healthy
-#14 79.54 โ” ฦ’ /idp
-#14 79.54 โ” ฦ’ /idp/[provider]/account-not-found
-#14 79.54 โ” ฦ’ /idp/[provider]/complete-registration
-#14 79.54 โ” ฦ’ /idp/[provider]/failure
-#14 79.54 โ” ฦ’ /idp/[provider]/linking-failed
-#14 79.54 โ” ฦ’ /idp/[provider]/process
-#14 79.54 โ” ฦ’ /idp/[provider]/registration-failed
-#14 79.54 โ” ฦ’ /idp/ldap
-#14 79.54 โ” ฦ’ /login
-#14 79.54 โ” ฦ’ /loginname
-#14 79.54 โ” ฦ’ /logout
-#14 79.54 โ” ฦ’ /logout/done
-#14 79.54 โ” ฦ’ /mfa
-#14 79.54 โ” ฦ’ /mfa/set
-#14 79.54 โ” ฦ’ /otel-test
-#14 79.54 โ” ฦ’ /otp/[method]
-#14 79.54 โ” ฦ’ /otp/[method]/set
-#14 79.54 โ” ฦ’ /passkey
-#14 79.54 โ” ฦ’ /passkey/set
-#14 79.54 โ” ฦ’ /password
-#14 79.54 โ” ฦ’ /password/change
-#14 79.54 โ” ฦ’ /password/set
-#14 79.54 โ” ฦ’ /ready
-#14 79.54 โ” ฦ’ /register
-#14 79.54 โ” ฦ’ /register/password
-#14 79.54 โ” ฦ’ /signedin
-#14 79.54 โ” ฦ’ /u2f
-#14 79.54 โ” ฦ’ /u2f/set
-#14 79.54 โ” ฦ’ /verify
-#14 79.54 โ”” ฦ’ /verify/success
-#14 79.54 ฦ’ Proxy (Middleware)
-#14 79.54 โ—  (Static)   prerendered as static content
-#14 79.54 ฦ’  (Dynamic)  server-rendered on demand
-#14 80.28 
-#14 80.28 
-#14 80.28 
-#14 80.28  NX   Successfully ran target build for project @zitadel/login and 2 tasks it depends on
-#14 80.28 
-#14 80.28 
-#14 DONE 80.6s
+#14 7.218 
+#14 7.218  NX   Nx Cloud manually disabled
+#14 7.218 
+#14 7.219 Nx will continue running, but nothing will be written or read from the remote cache.
+#14 7.219 Run details will also not be available in the Nx Cloud UI.
+#14 7.219 
+#14 7.219 If this wasn't intentional, check for the NX_NO_CLOUD environment variable or the --no-cloud flag.
+#14 7.219 
+#14 7.223 
+#14 7.223  NX   Running target build for project @zitadel/login and 2 tasks it depends on:
+#14 7.223 
+#14 7.224 
+#14 39.78 
+#14 39.78 > nx run @zitadel/proto:generate
+#14 39.78 
+#14 39.78 > pnpm exec buf generate ../../proto
+#14 39.78 
+#14 45.59 
+#14 45.59 > nx run @zitadel/client:build
+#14 45.59 
+#14 45.59 
+#14 45.59 > @zitadel/client@ build /repo/packages/zitadel-client
+#14 45.59 > tsup
+#14 45.59 
+#14 45.59 CLI Building entry: src/index.ts, src/node.ts, src/v1.ts, src/v2.ts, src/v3alpha.ts, src/web.ts
+#14 45.59 CLI Using tsconfig: tsconfig.json
+#14 45.59 CLI tsup v8.5.1
+#14 45.59 CLI Using tsup config: /repo/packages/zitadel-client/tsup.config.ts
+#14 45.59 CLI Target: es2022
+#14 45.59 CLI Cleaning output folder
+#14 45.59 ESM Build start
+#14 45.59 CJS Build start
+#14 45.59 ESM dist/index.js              659.00 B
+#14 45.59 ESM dist/node.js               1.52 KB
+#14 45.59 ESM dist/chunk-27KHKGT3.js     392.00 B
+#14 45.59 ESM dist/v3alpha.js            529.00 B
+#14 45.59 ESM dist/chunk-H5CIUTXZ.js     333.00 B
+#14 45.59 ESM dist/web.js                413.00 B
+#14 45.59 ESM dist/v1.js                 765.00 B
+#14 45.59 ESM dist/v2.js                 1.84 KB
+#14 45.59 ESM dist/index.js.map          890.00 B
+#14 45.59 ESM dist/node.js.map           3.54 KB
+#14 45.59 ESM dist/chunk-27KHKGT3.js.map 750.00 B
+#14 45.59 ESM dist/chunk-H5CIUTXZ.js.map 841.00 B
+#14 45.59 ESM dist/web.js.map            843.00 B
+#14 45.59 ESM dist/v2.js.map             2.33 KB
+#14 45.59 ESM dist/v3alpha.js.map        620.00 B
+#14 45.59 ESM dist/v1.js.map             928.00 B
+#14 45.59 ESM โก๏ธ Build success in 100ms
+#14 45.59 CJS dist/index.cjs              1015.00 B
+#14 45.59 CJS dist/v1.cjs                 1.11 KB
+#14 45.59 CJS dist/node.cjs               2.52 KB
+#14 45.59 CJS dist/v2.cjs                 2.65 KB
+#14 45.59 CJS dist/v3alpha.cjs            785.00 B
+#14 45.59 CJS dist/chunk-DUECDNWC.cjs     522.00 B
+#14 45.59 CJS dist/chunk-RFOVJJ5M.cjs     440.00 B
+#14 45.59 CJS dist/web.cjs                536.00 B
+#14 45.59 CJS dist/index.cjs.map          1.05 KB
+#14 45.59 CJS dist/v1.cjs.map             1.09 KB
+#14 45.59 CJS dist/v2.cjs.map             2.62 KB
+#14 45.59 CJS dist/node.cjs.map           4.15 KB
+#14 45.59 CJS dist/v3alpha.cjs.map        794.00 B
+#14 45.59 CJS dist/chunk-RFOVJJ5M.cjs.map 1.06 KB
+#14 45.59 CJS dist/chunk-DUECDNWC.cjs.map 969.00 B
+#14 45.59 CJS dist/web.cjs.map            1.01 KB
+#14 45.59 CJS โก๏ธ Build success in 115ms
+#14 45.59 DTS Build start
+#14 45.59 DTS โก๏ธ Build success in 3728ms
+#14 45.59 DTS dist/index.d.ts    1.03 KB
+#14 45.59 DTS dist/node.d.ts     1004.00 B
+#14 45.59 DTS dist/v1.d.ts       146.46 KB
+#14 45.59 DTS dist/v2.d.ts       32.61 KB
+#14 45.59 DTS dist/v3alpha.d.ts  13.82 KB
+#14 45.59 DTS dist/web.d.ts      406.00 B
+#14 45.59 DTS dist/index.d.cts   1.03 KB
+#14 45.59 DTS dist/node.d.cts    1004.00 B
+#14 45.59 DTS dist/v1.d.cts      146.46 KB
+#14 45.59 DTS dist/v2.d.cts      32.61 KB
+#14 45.59 DTS dist/v3alpha.d.cts 13.82 KB
+#14 45.59 DTS dist/web.d.cts     406.00 B
+#14 45.60 
+#14 45.60 > nx run @zitadel/login:build
+#14 45.60 
+#14 46.09 ! Corepack is about to download https://registry.npmjs.org/pnpm/-/pnpm-10.28.2.tgz
+#14 48.74 > @zitadel/login@ build /repo/apps/login
+#14 48.74 > NEXT_OUTPUT_MODE=standalone next build && cp -r public scripts/* .next/standalone/ && mv .next/standalone/apps/login/server.js .next/standalone/apps/login/next-server.js && cp .next/standalone/server.mjs .next/standalone/apps/login/server.js && cp -r .next/static .next/standalone/apps/login/.next/ && rm .next/standalone/apps/login/.env
+#14 49.36 โ  No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+#14 49.40 โ–ฒ Next.js 16.2.6 (Turbopack)
+#14 49.40 - Environments: .env
+#14 49.40 - Experiments (use with caution):
+#14 49.40   ยท optimizePackageImports
+#14 49.40   ยท serverActions
+#14 49.43   Creating an optimized production build ...
+#14 57.56 โ“ Compiled successfully in 7.8s
+#14 57.57   Running TypeScript ...
+#14 68.29   Finished TypeScript in 10.7s ...
+#14 68.30   Collecting page data using 11 workers ...
+#14 70.00   Generating static pages using 11 workers (0/29) ...
+#14 70.55   Generating static pages using 11 workers (7/29) 
+#14 70.59   Generating static pages using 11 workers (14/29) 
+#14 70.68   Generating static pages using 11 workers (21/29) 
+#14 70.82 โ“ Generating static pages using 11 workers (29/29) in 817ms
+#14 70.83   Finalizing page optimization ...
+#14 71.83 Route (app)
+#14 71.83 โ” ฦ’ /
+#14 71.83 โ” โ— /_not-found
+#14 71.83 โ” ฦ’ /accounts
+#14 71.83 โ” ฦ’ /authenticator/set
+#14 71.83 โ” ฦ’ /device
+#14 71.83 โ” ฦ’ /device/consent
+#14 71.83 โ” ฦ’ /healthy
+#14 71.83 โ” ฦ’ /idp
+#14 71.83 โ” ฦ’ /idp/[provider]/account-not-found
+#14 71.83 โ” ฦ’ /idp/[provider]/complete-registration
+#14 71.83 โ” ฦ’ /idp/[provider]/failure
+#14 71.83 โ” ฦ’ /idp/[provider]/linking-failed
+#14 71.83 โ” ฦ’ /idp/[provider]/process
+#14 71.83 โ” ฦ’ /idp/[provider]/registration-failed
+#14 71.83 โ” ฦ’ /idp/ldap
+#14 71.83 โ” ฦ’ /login
+#14 71.83 โ” ฦ’ /loginname
+#14 71.83 โ” ฦ’ /logout
+#14 71.83 โ” ฦ’ /logout/done
+#14 71.83 โ” ฦ’ /mfa
+#14 71.83 โ” ฦ’ /mfa/set
+#14 71.83 โ” ฦ’ /otel-test
+#14 71.83 โ” ฦ’ /otp/[method]
+#14 71.83 โ” ฦ’ /otp/[method]/set
+#14 71.83 โ” ฦ’ /passkey
+#14 71.83 โ” ฦ’ /passkey/set
+#14 71.83 โ” ฦ’ /password
+#14 71.83 โ” ฦ’ /password/change
+#14 71.83 โ” ฦ’ /password/set
+#14 71.83 โ” ฦ’ /ready
+#14 71.83 โ” ฦ’ /register
+#14 71.83 โ” ฦ’ /register/password
+#14 71.83 โ” ฦ’ /signedin
+#14 71.83 โ” ฦ’ /u2f
+#14 71.83 โ” ฦ’ /u2f/set
+#14 71.83 โ” ฦ’ /verify
+#14 71.83 โ”” ฦ’ /verify/success
+#14 71.83 ฦ’ Proxy (Middleware)
+#14 71.84 โ—  (Static)   prerendered as static content
+#14 71.84 ฦ’  (Dynamic)  server-rendered on demand
+#14 72.49 
+#14 72.49 
+#14 72.49 
+#14 72.49  NX   Successfully ran target build for project @zitadel/login and 2 tasks it depends on
+#14 72.49 
+#14 72.49 
+#14 DONE 72.9s
 
 #15 [stage-1 2/5] WORKDIR /app
 #15 CACHED
@@ -253,14 +249,15 @@
 
 #19 exporting to image
 #19 exporting layers
-#19 exporting layers 3.2s done
-#19 exporting manifest sha256:f9179312d303a999102a6e0883879b72778d47cf568a4a9611f18d1c23b510d6 0.0s done
-#19 exporting config sha256:4fb4d1f91235d3033319def1c725001917808b0357269b9666f1eb63fdda6762 0.0s done
-#19 exporting attestation manifest sha256:59a526c935c45344f4f0a6143d19ff2b46ea4aea097b8d66398a9736eb9733cd 0.0s done
-#19 exporting manifest list sha256:30659ba7e2e780ecbceed3f96033479effaca5c36155ec972717d52667e2b9d1 0.0s done
-#19 naming to docker.io/library/saas-zitadel-login:v4.15.3-custom.8 done
-#19 unpacking to docker.io/library/saas-zitadel-login:v4.15.3-custom.8
-#19 unpacking to docker.io/library/saas-zitadel-login:v4.15.3-custom.8 1.0s done
-#19 DONE 4.4s
+#19 exporting layers 2.8s done
+#19 exporting manifest sha256:23bec1848ba5e32f284f5a6ae4eef2c93dbcc7d0142544e41939d39f92dc7016 0.0s done
+#19 exporting config sha256:aee4ec6a5db28577984877990dd46aea1bd2a423480568dd37b21a9ea6aa4a30 0.0s done
+#19 exporting attestation manifest sha256:a120cbb89ece37816150a993bfcafde02579d83dafd4c0a3d27a96faebb1ea37 0.0s done
+#19 exporting manifest list sha256:acdcd5b3f09ec17ac3f3ecfe1618ee847c6e00acdc7f87e4379bab3fec0ad7c0 0.0s done
+#19 naming to docker.io/library/saas-zitadel-login:v4.15.3-custom.9
+#19 naming to docker.io/library/saas-zitadel-login:v4.15.3-custom.9 done
+#19 unpacking to docker.io/library/saas-zitadel-login:v4.15.3-custom.9
+#19 unpacking to docker.io/library/saas-zitadel-login:v4.15.3-custom.9 1.4s done
+#19 DONE 4.3s
 
-View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/e1p9ebifts8jc15rbscfaafzn
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/oon9fn04lxe8kymrxvonlj93l

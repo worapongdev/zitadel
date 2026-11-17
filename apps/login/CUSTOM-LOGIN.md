@@ -21,6 +21,7 @@ Branch `custom-login` คือหน้า login ของ ZITADEL รุ่น
 | `src/components/password-form.tsx` | ปุ่มแสดง/ซ่อนรหัสผ่าน, "ลืมรหัสผ่าน?" ชิดขวา, ปุ่มเต็มความกว้าง, ปุ่มย้อนกลับแบบรอง |
 | `src/components/password-input.tsx` (ของเรา) | ช่องรหัสผ่านพร้อมปุ่มแสดง/ซ่อน ใช้ใน `password-form`, `set-password-form`, `change-password-form`, `set-register-password-form` |
 | `src/components/back-button.tsx`, `src/components/alert.tsx` | เพิ่ม class (`cl-back`, `cl-alert`) ให้ CSS จัดหน้าตา |
+| `src/i18n/request.ts` | ข้อความระดับ instance เป็นฐาน แล้วทับด้วยข้อความของ organization (ต้นฉบับใช้ของ organization อย่างเดียวเมื่อ URL มี `organization=` หน้าจึงกลับเป็นภาษาอังกฤษ) |
 | `src/components/user-avatar.tsx` | กล่องบัญชีแบบใหม่พร้อมลิงก์ "เปลี่ยน" |
 | `src/app/(login)/loginname/page.tsx`, `src/app/(login)/password/page.tsx` | ลิงก์ย้อนกลับและป้ายขั้นตอนเหนือหัวข้อ |
 | `Dockerfile.custom` (+ `.dockerignore`) | build ทั้งหมดใน Docker |
