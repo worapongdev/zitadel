@@ -26,6 +26,8 @@ Branch `custom-login` คือหน้า login ของ ZITADEL รุ่น
 | `locales/th.json` (ของเรา) | ข้อความภาษาไทยทั้งชุด อยู่ใน image |
 | `src/lib/i18n.ts` | เพิ่มภาษา `th` ในรายการ |
 | `src/lib/zitadel.ts` | `getBrandingSettings` แทนสีหลักด้วย `CUSTOM_LOGIN_PRIMARY_COLOR` เมื่อตั้งไว้ |
+| `src/lib/server/password.ts` (+ test) | session ที่เคยยืนยันรหัสผ่านแล้วไม่ถูกใช้ซ้ำ: การเข้าสู่ระบบด้วยรหัสผ่านได้ session ใหม่ (`sid` ใหม่) และ session เดิมถูกปิดเมื่อรหัสผ่านถูก ต้นฉบับยืนยันรหัสผ่านบน session เดิม ทำให้ `sid` เดิมกลับมาหลัง logout |
+| `src/components/sessions-clear-list.tsx`, `src/app/(login)/logout/page.tsx` | หน้า logout ที่ ZITADEL ส่งมา (มี logout token ที่ตรวจแล้ว) ปิดทุก session ของ browser และลบ cookie เอง แล้วไป `post_logout_redirect_uri`; ต้นฉบับแสดงรายการให้กดเลือก |
 | `src/components/user-avatar.tsx` | กล่องบัญชีแบบใหม่พร้อมลิงก์ "เปลี่ยน" |
 | `src/app/(login)/loginname/page.tsx`, `src/app/(login)/password/page.tsx` | ลิงก์ย้อนกลับและป้ายขั้นตอนเหนือหัวข้อ |
 | `Dockerfile.custom` (+ `.dockerignore`) | build ทั้งหมดใน Docker |
@@ -58,7 +60,7 @@ Branch `custom-login` คือหน้า login ของ ZITADEL รุ่น
 
 ## Build image
 
-**image สำหรับใช้งานจริง** ออกด้วย `scripts/build-images.ps1` ของ `saas-infra-template` จาก git tag `login-v<รุ่น ZITADEL>-<ลำดับ>` ของ repository นี้ (ดู `docs/16-images.md` ที่นั่น) ได้ `saas-infra/zitadel-login:<รุ่น ZITADEL>-<ลำดับ>` คำสั่ง `docker build` ข้างล่างใช้ตอนพัฒนาเท่านั้น
+**image สำหรับใช้งานจริง** ออกด้วย `scripts/build-images.ps1` ของ `saas-infra-template` จาก git tag `login-v<รุ่น ZITADEL>-<ลำดับ>` ของ repository นี้ (ดู `docs/16-images.md` ที่นั่น) ได้ `saas-infra/zitadel-custom-login:<รุ่น ZITADEL>-<ลำดับ>` คำสั่ง `docker build` ข้างล่างใช้ตอนพัฒนาเท่านั้น
 
 
 รันจาก**รากของ repository นี้** (ไม่ใช่ใน `apps/login`):

@@ -33,6 +33,7 @@ import {
   checkUserVerification,
 } from "../verify-helper";
 import { getPublicHostWithProtocol } from "./host";
+import { clearSession } from "./session";
 
 const logger = createLogger("password");
 
@@ -136,6 +137,20 @@ export type UpdateSessionCommand = {
   requestId?: string;
 };
 
+/** True when `cookie`'s session exists and its password was verified before. */
+async function passwordWasVerified(
+  serviceConfig: Parameters<typeof getSession>[0]["serviceConfig"],
+  cookie: { id: string; token: string },
+): Promise<boolean> {
+  try {
+    const response = await getSession({ serviceConfig, sessionId: cookie.id, sessionToken: cookie.token });
+    return !!response?.session?.factors?.password?.verifiedAt;
+  } catch {
+    // Ended or unknown: the update below fails and a new session is created.
+    return false;
+  }
+}
+
 export async function sendPassword(
   command: UpdateSessionCommand,
 ): Promise<{ error: string } | { redirect: string } | { samlData: { url: string; fields: Record<string, string> } }> {
@@ -154,6 +169,19 @@ export async function sendPassword(
   let user: User | undefined;
   let loginSettingsByContext: LoginSettings | undefined;
   let loginSettingsByUser: LoginSettings | undefined;
+
+  // Custom login (saas-infra-template): a session that was already signed in
+  // with a password is not signed in again. Upstream verifies the password on
+  // that same session, so every later sign-in of this browser keeps one
+  // session id (the `sid` of ID tokens), also after a logout that left the
+  // session and its cookie in place. An application that refuses a
+  // logged-out `sid` then refuses the account for good. The sign-in gets a
+  // session of its own and the old one is ended once the password is right.
+  let replacedSessionId: string | undefined;
+  if (sessionCookie && (await passwordWasVerified(serviceConfig, sessionCookie))) {
+    replacedSessionId = sessionCookie.id;
+    sessionCookie = undefined;
+  }
 
   // Perform policy check on context settings first if available, or fetch them if needed
   if (!sessionCookie) {
@@ -278,6 +306,12 @@ export async function sendPassword(
         });
         session = result.session;
         sessionCookie = result.sessionCookie;
+        if (replacedSessionId && replacedSessionId !== sessionCookie?.id) {
+          // Best effort: a session that cannot be ended is only unused.
+          await clearSession({ sessionId: replacedSessionId }).catch(() => {
+            logger.warn("[Password] Could not end the session this sign-in replaces");
+          });
+        }
       } catch (error: any) {
         if ("failedAttempts" in error && error.failedAttempts) {
           recordAuthFailure("password", "invalid_password", command.organization);

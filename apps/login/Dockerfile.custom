@@ -4,7 +4,7 @@
 # this checkout inside Docker and packs it like apps/login/Dockerfile does.
 # The build context is the REPOSITORY ROOT:
 #
-#   docker build -f apps/login/Dockerfile.custom -t saas-infra/zitadel-login:4.15.3-1 .
+#   docker build -f apps/login/Dockerfile.custom -t saas-infra/zitadel-custom-login:4.15.3-1 .
 #
 # Release images are built by scripts/build-images.ps1 of saas-infra-template
 # from a tag login-v<zitadel release>-<n> of this repository.

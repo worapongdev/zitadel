@@ -40,6 +40,10 @@ vi.mock("../zitadel", () => ({
   searchUsers: vi.fn(),
 }));
 
+vi.mock("./session", () => ({
+  clearSession: vi.fn(),
+}));
+
 vi.mock("./cookie", () => ({
   createSessionAndUpdateCookie: vi.fn(),
   setSessionAndUpdateCookie: vi.fn(),
@@ -332,6 +336,83 @@ describe("sendPassword", () => {
 
     mockHeaders.mockResolvedValue({});
     mockGetServiceConfig.mockReturnValue({ serviceConfig: { baseUrl: "https://api.example.com" } });
+
+    // Custom login: by default an existing session has no verified password
+    // yet (the login name step created it), so it is updated as upstream.
+    const { getSession } = await import("../zitadel");
+    vi.mocked(getSession).mockResolvedValue({ session: { factors: { user: { id: "user123" } } } } as any);
+    const { clearSession } = await import("./session");
+    vi.mocked(clearSession).mockResolvedValue(undefined as any);
+  });
+
+  const activeUser = {
+    result: [
+      {
+        userId: "user123",
+        type: { case: "human", value: { email: { email: "user@example.com", isVerified: true } } },
+        state: 1,
+        preferredLoginName: "user@example.com",
+      },
+    ],
+  };
+
+  test("custom login: a session already signed in with a password is replaced, not signed in again", async () => {
+    const { getSession } = await import("../zitadel");
+    const { clearSession } = await import("./session");
+    mockGetSessionCookieByLoginName.mockResolvedValue({ id: "oldSession", token: "oldToken", organization: "org123" });
+    vi.mocked(getSession).mockResolvedValue({
+      session: { factors: { user: { id: "user123" }, password: { verifiedAt: { seconds: BigInt(1) } } } },
+    } as any);
+    mockGetLoginSettings.mockResolvedValue({ allowLocalAuthentication: true });
+    mockSearchUsers.mockResolvedValue(activeUser);
+    mockCreateSessionAndUpdateCookie.mockResolvedValue({
+      session: { factors: { user: { id: "user123", loginName: "user@example.com" } } },
+      sessionCookie: { id: "newSession", token: "newToken" },
+    });
+
+    await sendPassword({ loginName: "user@example.com", checks: { password: { password: "password" } } as any });
+
+    expect(mockSetSessionAndUpdateCookie).not.toHaveBeenCalled();
+    expect(mockCreateSessionAndUpdateCookie).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(clearSession)).toHaveBeenCalledWith({ sessionId: "oldSession" });
+  });
+
+  test("custom login: a wrong password does not end the session it would have replaced", async () => {
+    const { getSession } = await import("../zitadel");
+    const { clearSession } = await import("./session");
+    mockGetSessionCookieByLoginName.mockResolvedValue({ id: "oldSession", token: "oldToken", organization: "org123" });
+    vi.mocked(getSession).mockResolvedValue({
+      session: { factors: { user: { id: "user123" }, password: { verifiedAt: { seconds: BigInt(1) } } } },
+    } as any);
+    mockGetLoginSettings.mockResolvedValue({ allowLocalAuthentication: true });
+    mockSearchUsers.mockResolvedValue(activeUser);
+    mockCreateSessionAndUpdateCookie.mockRejectedValue({ failedAttempts: 1 });
+    mockGetLockoutSettings.mockResolvedValue({});
+
+    const result = await sendPassword({
+      loginName: "user@example.com",
+      checks: { password: { password: "wrong" } } as any,
+    });
+
+    expect(result).toHaveProperty("error");
+    expect(vi.mocked(clearSession)).not.toHaveBeenCalled();
+  });
+
+  test("custom login: a session without a verified password is signed in as upstream does", async () => {
+    const { clearSession } = await import("./session");
+    mockGetSessionCookieByLoginName.mockResolvedValue({ id: "fresh", token: "token", organization: "org123" });
+    mockGetLoginSettings.mockResolvedValue({ allowLocalAuthentication: true });
+    mockSetSessionAndUpdateCookie.mockResolvedValue({
+      factors: { user: { id: "user123", loginName: "user@example.com" } },
+    });
+    const { getUserByID } = await import("../zitadel");
+    vi.mocked(getUserByID).mockResolvedValue({ user: activeUser.result[0] } as any);
+
+    await sendPassword({ loginName: "user@example.com", checks: { password: { password: "password" } } as any });
+
+    expect(mockSetSessionAndUpdateCookie).toHaveBeenCalledTimes(1);
+    expect(mockCreateSessionAndUpdateCookie).not.toHaveBeenCalled();
+    expect(vi.mocked(clearSession)).not.toHaveBeenCalled();
   });
 
   test("should return generic error when user not found and ignoreUnknownUsernames is true", async () => {

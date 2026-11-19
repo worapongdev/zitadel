@@ -37,6 +37,8 @@ export default async function Page(props: { searchParams: Promise<Record<string 
   const { serviceConfig } = getServiceConfig(_headers);
 
   let postLogoutRedirectUri, logoutHint;
+  // Custom login: true once the logout token of ZITADEL's end_session is verified.
+  let logoutRequested = false;
   if (logoutToken) {
     try {
       const payload = await verifyJwt<{ post_logout_redirect_uri?: string; logoutHint?: string }>(
@@ -47,7 +49,7 @@ export default async function Page(props: { searchParams: Promise<Record<string 
           publicHost: serviceConfig.publicHost,
         },
       );
-      console.log("logout token payload", payload);
+      logoutRequested = true;
 
       if (payload.post_logout_redirect_uri && typeof payload.post_logout_redirect_uri === "string") {
         postLogoutRedirectUri = payload.post_logout_redirect_uri;
@@ -96,6 +98,7 @@ export default async function Page(props: { searchParams: Promise<Record<string 
             logoutHint={logoutHint}
             postLogoutRedirectUri={postLogoutRedirectUri}
             organization={organization ?? defaultOrganization}
+            clearAll={logoutRequested}
           />
         </div>
       </div>
